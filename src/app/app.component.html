@@ -1,8 +1,9 @@
-<nav>
+<nav class="navbar">
   <ul>
     <li><a routerLink="/register">Registro</a></li>
     <li *ngIf="!isLoggedIn()"><a routerLink="/login">Iniciar Sesión</a></li>
     <li *ngIf="isLoggedIn()" (click)="logout()">Cerrar Sesión</li>
   </ul>
 </nav>
+
 <router-outlet></router-outlet>

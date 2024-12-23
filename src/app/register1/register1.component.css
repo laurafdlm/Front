@@ -1,62 +1,71 @@
-/* Contenedor del formulario */
-.form-container {
-    max-width: 400px;
-    margin: 50px auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+body {
     font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
   }
   
-  /* Título */
-  .form-container h2 {
+  .container {
+    max-width: 500px; /* Ancho máximo del formulario */
+    margin: 50px auto; /* Centra horizontalmente y agrega margen superior */
+    padding: 20px;
+    background-color: #fff; /* Fondo blanco para el formulario */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+  }
+  
+  h1 {
     text-align: center;
+    color: #4caf50; /* Color verde */
     margin-bottom: 20px;
-    color: #333;
   }
   
-  /* Grupos de formulario */
-  .form-group {
-    margin-bottom: 15px;
-  }
-  
-  .form-group label {
+  label {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
-    color: #555;
+    color: #333;
   }
   
-  .form-group input {
-    width: 100%;
+  input {
+    width: 100%; /* Hace que los inputs ocupen todo el ancho del contenedor */
     padding: 10px;
+    margin-bottom: 15px;
     border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
+    border-radius: 4px;
   }
   
-  /* Botón */
-  .btn-submit {
-    width: 100%;
+  button {
+    width: 100%; /* Botón del mismo ancho que los inputs */
     padding: 10px;
-    background-color: #4CAF50;
-    color: white;
+    background-color: #4caf50;
+    color: #fff;
     border: none;
-    border-radius: 5px;
-    font-size: 16px;
+    border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    font-size: 16px;
+    font-weight: bold;
   }
   
-  .btn-submit:hover {
-    background-color: #45a049;
+  button:hover {
+    background-color: #45a049; /* Efecto hover */
   }
   
-  /* Enfoque en los inputs */
-  .form-group input:focus {
-    outline: none;
-    border-color: #4CAF50;
-    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+  .message {
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 4px;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .message.success {
+    background-color: #d4edda;
+    color: #155724;
+  }
+  
+  .message.error {
+    background-color: #f8d7da;
+    color: #721c24;
   }
   
