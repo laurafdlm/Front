@@ -18,15 +18,20 @@ export class Register1Component {
   constructor(private service: UserService) {}
 
   registrar() {
-    if (this.pwd1 !== this.pwd2) {
-      console.error('Las contraseñas no coinciden');
+    if (!this.email || !this.pwd1 || !this.pwd2) {
+      alert('Por favor, rellena todos los campos.');
       return;
     }
-  
-    this.service.register1(this.email!, this.pwd1!, this.pwd2!).subscribe(
+
+    if (this.pwd1 !== this.pwd2) {
+      alert('Las contraseñas no coinciden');
+      return;
+    }
+
+    this.service.register1(this.email, this.pwd1, this.pwd2).subscribe(
       (response: any) => {
         console.log('Registro exitoso:', response);
-        alert(response); // Mostrar el texto plano devuelto por el backend
+        alert('Usuario registrado con éxito.');
       },
       (error: any) => {
         console.error('Error en el registro:', error);
@@ -34,6 +39,4 @@ export class Register1Component {
       }
     );
   }
-  
-  
 }

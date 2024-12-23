@@ -1,8 +1,5 @@
-<div class="protected-container">
-    <h2>Recurso Protegido</h2>
-    <button (click)="fetchProtectedData()">Cargar Datos Protegidos</button>
-    <div *ngIf="protectedData">
-      <pre>{{ protectedData | json }}</pre>
-    </div>
-  </div>
-  
+<h2>Recurso Protegido</h2>
+<button (click)="fetchProtectedData()">Cargar Datos Protegidos</button>
+<div *ngIf="protectedData">
+  <pre>{{ protectedData | json }}</pre>
+</div>
