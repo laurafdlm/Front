@@ -1,15 +1,14 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { UserService } from '../user.service';
 import { Router } from '@angular/router';
+import { UserService } from '../user.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [FormsModule],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
   email?: string;
@@ -18,17 +17,11 @@ export class LoginComponent {
   constructor(private service: UserService, private router: Router) {}
 
   login() {
-    if (!this.email || !this.password) {
-      alert('Por favor, rellena todos los campos.');
-      return;
-    }
-
-    this.service.login(this.email, this.password).subscribe(
+    this.service.login(this.email!, this.password!).subscribe(
       (response: any) => {
-        console.log('Inicio de sesión exitoso. Token:', response.token);
-        localStorage.setItem('token', response.token); // Guardar token en localStorage
-        alert('Inicio de sesión exitoso.');
-        this.router.navigate(['/protected']); // Redirigir a la página protegida
+        console.log('Inicio de sesión exitoso:', response);
+        alert('Inicio de sesión exitoso');
+        this.router.navigate(['/home']);
       },
       (error: any) => {
         console.error('Error en el inicio de sesión:', error);

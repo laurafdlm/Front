@@ -1,18 +1,22 @@
 import { bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent } from './app/app.component';
-import { provideRouter } from '@angular/router';
-import { provideHttpClient } from '@angular/common/http';
+import { provideRouter, Routes } from '@angular/router';
+import { importProvidersFrom } from '@angular/core'; // Para importar módulos
+import { HttpClientModule } from '@angular/common/http'; // Asegúrate de importar HttpClientModule
 import { LoginComponent } from './app/login/login.component';
 import { Register1Component } from './app/register1/register1.component';
-import { ProtectedComponent } from './app/protected/protected.component';
+import { HomeComponent } from './app/home/home.component';
+
+const routes: Routes = [
+  { path: '', redirectTo: '/register', pathMatch: 'full' },
+  { path: 'register', component: Register1Component },
+  { path: 'login', component: LoginComponent },
+  { path: 'home', component: HomeComponent },
+];
 
 bootstrapApplication(AppComponent, {
   providers: [
-    provideRouter([
-      { path: '', component: LoginComponent },
-      { path: 'register', component: Register1Component },
-      { path: 'protected', component: ProtectedComponent },
-    ]),
-    provideHttpClient(),
+    provideRouter(routes),
+    importProvidersFrom(HttpClientModule), // Asegúrate de incluir HttpClientModule aquí
   ],
-}).catch((err) => console.error(err));
+});

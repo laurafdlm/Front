@@ -1,13 +1,13 @@
-<h2>Registro</h2>
-<form (ngSubmit)="registrar()">
+<h1>Registro</h1>
+<form>
   <label for="email">Correo Electrónico:</label>
-  <input type="email" [(ngModel)]="email" name="email" required />
-  <br />
+  <input type="email" id="email" [(ngModel)]="email" name="email" required />
+
   <label for="pwd1">Contraseña:</label>
-  <input type="password" [(ngModel)]="pwd1" name="pwd1" required />
-  <br />
-  <label for="pwd2">Confirmar Contraseña:</label>
-  <input type="password" [(ngModel)]="pwd2" name="pwd2" required />
-  <br />
-  <button type="submit">Registrar</button>
+  <input type="password" id="pwd1" [(ngModel)]="pwd1" name="pwd1" required />
+
+  <label for="pwd2">Repetir Contraseña:</label>
+  <input type="password" id="pwd2" [(ngModel)]="pwd2" name="pwd2" required />
+
+  <button type="button" (click)="registrar()">Registrar</button>
 </form>

@@ -1,41 +1,37 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { UserService } from '../user.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-register1',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [FormsModule],
   templateUrl: './register1.component.html',
-  styleUrls: ['./register1.component.css']
+  styleUrls: ['./register1.component.css'],
 })
 export class Register1Component {
   email?: string;
   pwd1?: string;
   pwd2?: string;
 
-  constructor(private service: UserService) {}
+  constructor(private service: UserService, private router: Router) {}
 
   registrar() {
-    if (!this.email || !this.pwd1 || !this.pwd2) {
-      alert('Por favor, rellena todos los campos.');
-      return;
-    }
-
     if (this.pwd1 !== this.pwd2) {
       alert('Las contraseñas no coinciden');
       return;
     }
 
-    this.service.register1(this.email, this.pwd1, this.pwd2).subscribe(
+    this.service.register1(this.email!, this.pwd1!, this.pwd2!).subscribe(
       (response: any) => {
         console.log('Registro exitoso:', response);
-        alert('Usuario registrado con éxito.');
+        alert('Usuario registrado con éxito');
+        this.router.navigate(['/home']);
       },
       (error: any) => {
         console.error('Error en el registro:', error);
-        alert('Hubo un problema al registrar el usuario.');
+        alert('Error al registrar el usuario.');
       }
     );
   }
