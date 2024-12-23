@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { Register1Component } from "./register1/register1.component";
+import { CommonModule } from '@angular/common';
+import { LoginComponent } from './login/login.component'; // Importa LoginComponent
+import { ProtectedComponent } from './protected/protected.component'; // Importa ProtectedComponent
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Register1Component],
+  standalone: true,
+  imports: [CommonModule, LoginComponent, ProtectedComponent], // Importa ambos componentes aquí
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-  title = 'sslfe';
-}
+export class AppComponent {}

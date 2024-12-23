@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl = 'http://localhost:9000/users/registrar1';
+  private apiUrl = 'http://localhost:9000';
 
   constructor(private http: HttpClient) {}
 
@@ -16,6 +16,14 @@ export class UserService {
       pwd2: pwd2,
     };
     return this.http.post<string>('http://localhost:9000/users/registrar1', info, { responseType: 'text' as 'json' });
+  }
+  getProtectedResource(endpoint: string) {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this.http.get(`${this.apiUrl}/${endpoint}`, { headers });
   }
   
 }
