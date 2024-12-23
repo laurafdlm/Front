@@ -10,13 +10,21 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
+  // Método para registro
   register1(email: string, pwd1: string, pwd2: string): Observable<any> {
     const body = { email, pwd1, pwd2 };
     return this.http.post(`${this.baseUrl}/registrar1`, body);
   }
 
+  // Método para inicio de sesión
   login(email: string, password: string): Observable<any> {
     const body = { email, pwd: password };
     return this.http.put(`${this.baseUrl}/login1`, body);
   }
+
+  sendPasswordRecovery(email: string): Observable<any> {
+    const body = { email };
+    return this.http.post(`${this.baseUrl}/forgot-password`, body);
+  }
+  
 }

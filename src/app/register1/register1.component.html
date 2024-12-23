@@ -1,19 +1,61 @@
-<div class="container">
-    <h1>Registro</h1>
-    <div *ngIf="message" class="message" [ngClass]="{'success': isSuccess, 'error': !isSuccess}">
-      {{ message }}
+<div class="container mt-5">
+    <div class="card shadow">
+      <div class="card-header text-center bg-success text-white">
+        <h2>Registro</h2>
+      </div>
+      <div class="card-body">
+        <form>
+          <div class="mb-3">
+            <label for="email" class="form-label">Correo Electrónico:</label>
+            <input
+              type="email"
+              id="email"
+              [(ngModel)]="email"
+              name="email"
+              class="form-control"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="pwd1" class="form-label">Contraseña:</label>
+            <input
+              type="password"
+              id="pwd1"
+              [(ngModel)]="pwd1"
+              name="pwd1"
+              class="form-control"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="pwd2" class="form-label">Repetir Contraseña:</label>
+            <input
+              type="password"
+              id="pwd2"
+              [(ngModel)]="pwd2"
+              name="pwd2"
+              class="form-control"
+              required
+            />
+          </div>
+          <button
+            type="button"
+            class="btn btn-success w-100"
+            (click)="registrar()"
+          >
+            Registrar
+          </button>
+        </form>
+  
+        <!-- Mensaje de éxito o error -->
+        <div
+          *ngIf="message"
+          class="mt-3 alert"
+          [ngClass]="{ 'alert-success': isSuccess, 'alert-danger': !isSuccess }"
+        >
+          {{ message }}
+        </div>
+      </div>
     </div>
-    <form>
-      <label for="email">Correo Electrónico:</label>
-      <input type="email" id="email" [(ngModel)]="email" name="email" required />
-  
-      <label for="pwd1">Contraseña:</label>
-      <input type="password" id="pwd1" [(ngModel)]="pwd1" name="pwd1" required />
-  
-      <label for="pwd2">Repetir Contraseña:</label>
-      <input type="password" id="pwd2" [(ngModel)]="pwd2" name="pwd2" required />
-  
-      <button type="button" (click)="registrar()">Registrar</button>
-    </form>
   </div>
   

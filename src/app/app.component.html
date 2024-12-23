@@ -1,9 +1,30 @@
-<nav class="navbar">
-  <ul>
-    <li><a routerLink="/register">Registro</a></li>
-    <li *ngIf="!isLoggedIn()"><a routerLink="/login">Iniciar Sesión</a></li>
-    <li *ngIf="isLoggedIn()" (click)="logout()">Cerrar Sesión</li>
-  </ul>
+<nav class="navbar navbar-expand-lg navbar-light bg-success">
+  <div class="container-fluid">
+    <a class="navbar-brand text-white" routerLink="/">Lista de la Compra</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link text-white" routerLink="/register">Registro</a>
+        </li>
+        <li *ngIf="!isLoggedIn()" class="nav-item">
+          <a class="nav-link text-white" routerLink="/login">Iniciar Sesión</a>
+        </li>
+        <li *ngIf="isLoggedIn()" class="nav-item">
+          <a class="nav-link text-white" (click)="logout()">Cerrar Sesión</a>
+        </li>
+      </ul>
+    </div>
+  </div>
 </nav>
-
 <router-outlet></router-outlet>
