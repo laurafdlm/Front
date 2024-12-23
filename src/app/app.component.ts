@@ -1,11 +1,30 @@
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common'; // Importar CommonModule
+import { RouterModule } from '@angular/router'; // Importar RouterModule
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterModule], // Asegúrate de importar RouterModule
+  imports: [CommonModule, RouterModule], // Agregar CommonModule y RouterModule
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent {}
+export class AppComponent {
+  constructor(private router: Router) {}
+
+  isLoggedIn(): boolean {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      return !!localStorage.getItem('token');
+    }
+    return false;
+  }
+
+  logout(): void {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      localStorage.removeItem('token');
+    }
+    alert('Has cerrado sesión');
+    this.router.navigate(['/login']);
+  }
+}

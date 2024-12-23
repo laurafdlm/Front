@@ -20,8 +20,8 @@ export class LoginComponent {
     this.service.login(this.email!, this.password!).subscribe(
       (response: any) => {
         console.log('Inicio de sesión exitoso:', response);
-        alert('Inicio de sesión exitoso');
-        this.router.navigate(['/home']);
+        localStorage.setItem('token', response.token); // Asegúrate de guardar el token
+        this.router.navigate(['/home']); // Verifica que la ruta `/home` exista
       },
       (error: any) => {
         console.error('Error en el inicio de sesión:', error);
@@ -29,4 +29,5 @@ export class LoginComponent {
       }
     );
   }
+  
 }

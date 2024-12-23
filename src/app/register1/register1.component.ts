@@ -22,11 +22,12 @@ export class Register1Component {
       alert('Las contraseñas no coinciden');
       return;
     }
-
+  
     this.service.register1(this.email!, this.pwd1!, this.pwd2!).subscribe(
       (response: any) => {
         console.log('Registro exitoso:', response);
         alert('Usuario registrado con éxito');
+        localStorage.setItem('token', response.token); // Asegúrate de guardar el token
         this.router.navigate(['/home']);
       },
       (error: any) => {
@@ -35,4 +36,5 @@ export class Register1Component {
       }
     );
   }
+  
 }
