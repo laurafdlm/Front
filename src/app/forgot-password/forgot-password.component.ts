@@ -8,6 +8,7 @@ import { UserService } from '../user.service';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './forgot-password.component.html',
+  
 })
 export class ForgotPasswordComponent {
   email?: string;
