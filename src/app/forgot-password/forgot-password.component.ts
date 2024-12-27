@@ -23,16 +23,26 @@ export class ForgotPasswordComponent {
       this.isSuccess = false;
       return;
     }
-
+  
     this.userService.sendPasswordRecovery(this.email).subscribe(
-      (response) => {
-        this.message = '¡Correo enviado! Revisa tu bandeja de entrada.';
+      (response: any) => {
+        console.log(response); // Verifica qué respuesta devuelve el backend
+        this.message = response || '¡Correo enviado! Revisa tu bandeja de entrada.';
         this.isSuccess = true;
       },
       (error) => {
-        this.message = 'Error al enviar el correo. Intenta de nuevo.';
+        console.error('Error:', error);
+        if (error.status === 404) {
+          this.message = 'El correo electrónico no está registrado.';
+        } else {
+          this.message = 'Error al enviar el correo. Intenta de nuevo.';
+        }
         this.isSuccess = false;
       }
     );
   }
+  
+  
+  
+  
 }

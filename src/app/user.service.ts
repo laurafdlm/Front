@@ -24,7 +24,8 @@ export class UserService {
 
   sendPasswordRecovery(email: string): Observable<any> {
     const body = { email };
-    return this.http.post(`${this.baseUrl}/forgot-password`, body);
+    return this.http.post(`${this.baseUrl}/forgot-password`, body, { responseType: 'text' }); // Ajusta `responseType` a `text`
   }
+  
   
 }

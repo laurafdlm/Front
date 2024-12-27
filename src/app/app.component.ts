@@ -11,7 +11,16 @@ import { RouterModule } from '@angular/router'; // Importar RouterModule
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+    const currentUrl = this.router.url;
+    const publicRoutes = ['/reset-password', '/forgot-password', '/register', '/login'];
+  
+    // Redirigir solo si no está autenticado y no está en una ruta pública
+    if (!this.isLoggedIn() && !publicRoutes.some(route => currentUrl.startsWith(route))) {
+      this.router.navigate(['/login']);
+    }
+  }
+  
 
   isLoggedIn(): boolean {
     if (typeof window !== 'undefined' && window.localStorage) {
@@ -27,4 +36,5 @@ export class AppComponent {
     alert('Has cerrado sesión');
     this.router.navigate(['/login']);
   }
+
 }
