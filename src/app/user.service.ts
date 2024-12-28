@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root', // Proporcionar en la raíz para evitar dependencias circulares
 })
 export class UserService {
-  private baseUrl = 'http://localhost:9000/users'; // Cambia según tu backend
+  private baseUrl = 'http://localhost:9000/users';
 
   constructor(private http: HttpClient) {}
 
@@ -19,12 +19,21 @@ export class UserService {
   // Método para inicio de sesión
   login(email: string, password: string): Observable<any> {
     const body = { email, pwd: password };
-    return this.http.put(`${this.baseUrl}/login1`, body);
+    return this.http.put(`${this.baseUrl}/login1`, body, { observe: 'response' });
   }
+  
 
   sendPasswordRecovery(email: string): Observable<any> {
     const body = { email };
     return this.http.post(`${this.baseUrl}/forgot-password`, body, { responseType: 'text' }); // Ajusta `responseType` a `text`
+  }
+  
+  getProfile() {
+    return this.http.get('/api/users/profile');
+  }
+  
+  deleteAccount() {
+    return this.http.delete('/api/users/delete-account');
   }
   
   

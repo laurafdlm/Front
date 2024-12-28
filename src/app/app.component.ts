@@ -25,14 +25,15 @@ export class AppComponent {
     }
     return false;
   }
-
   logout(): void {
-    if (typeof window !== 'undefined' && window.localStorage) {
-      localStorage.removeItem('token'); // Eliminar el token
-    }
+    // Eliminar la cookie del token
+    document.cookie = 'token=;path=/;max-age=0';
+  
+    // Informar al usuario y redirigir al login
     alert('Has cerrado sesión');
-    this.router.navigate(['/login']); // Redirigir al login
+    this.router.navigate(['/login']);
   }
+  
   
 
 }

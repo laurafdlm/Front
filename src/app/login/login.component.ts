@@ -21,18 +21,24 @@ export class LoginComponent {
 
   login() {
     this.service.login(this.email!, this.password!).subscribe(
-      (response: any) => {
-        console.log('Inicio de sesión exitoso:', response);
-        localStorage.setItem('token', response.token); // Guardar el token
-        this.router.navigate(['/home']); // Redirigir al home
+      (response) => {
+        // Extraer el token del cuerpo de la respuesta (o cabecera si lo devuelves ahí)
+        const token = response.body.token; // Asegúrate de que el backend devuelve el token correctamente
+  
+        // Guardar el token en una cookie con un tiempo de expiración de 1 hora
+        document.cookie = `token=${token};path=/;max-age=3600`;
+  
+        // Redirigir al home
+        this.router.navigate(['/home']);
       },
-      (error: any) => {
-        console.error('Error en el inicio de sesión:', error);
+      (error) => {
+        console.error('Error en el login:', error);
         this.message = 'Credenciales incorrectas.';
-        this.isSuccess = false;
       }
     );
   }
+  
+  
   
   forgotPassword() {
     this.router.navigate(['/forgot-password']);

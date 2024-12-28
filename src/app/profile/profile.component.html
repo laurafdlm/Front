@@ -1,0 +1,8 @@
+<div class="container mt-5">
+    <h2>Mi Perfil</h2>
+    <p>Email: {{ user?.email }}</p>
+    <p>Estado de pago: {{ user?.isPaid ? 'Pagado' : 'No pagado' }}</p>
+  
+    <button class="btn btn-danger" (click)="deleteAccount()">Eliminar Cuenta</button>
+  </div>
+  

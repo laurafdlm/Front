@@ -14,13 +14,16 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <a class="nav-link text-white" routerLink="/register">Registro</a>
-        </li>
-        <li *ngIf="!isLoggedIn()" class="nav-item">
+        <li class="nav-item" *ngIf="!isLoggedIn()">
           <a class="nav-link text-white" routerLink="/login">Iniciar Sesión</a>
         </li>
-        <li *ngIf="isLoggedIn()" class="nav-item">
+        <li class="nav-item" *ngIf="!isLoggedIn()">
+          <a class="nav-link text-white" routerLink="/register">Registro</a>
+        </li>
+        <li class="nav-item" *ngIf="isLoggedIn()">
+          <a class="nav-link text-white" routerLink="/profile">Perfil</a>
+        </li>
+        <li class="nav-item" *ngIf="isLoggedIn()">
           <a class="nav-link text-white" (click)="logout()">Cerrar Sesión</a>
         </li>
       </ul>
