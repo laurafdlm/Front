@@ -28,10 +28,11 @@ export class AppComponent {
 
   logout(): void {
     if (typeof window !== 'undefined' && window.localStorage) {
-      localStorage.removeItem('token');
+      localStorage.removeItem('token'); // Eliminar el token
     }
     alert('Has cerrado sesión');
-    this.router.navigate(['/login']);
+    this.router.navigate(['/login']); // Redirigir al login
   }
+  
 
 }

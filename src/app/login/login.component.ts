@@ -24,8 +24,6 @@ export class LoginComponent {
       (response: any) => {
         console.log('Inicio de sesión exitoso:', response);
         localStorage.setItem('token', response.token); // Guardar el token
-        this.message = 'Inicio de sesión exitoso.';
-        this.isSuccess = true;
         this.router.navigate(['/home']); // Redirigir al home
       },
       (error: any) => {
@@ -35,6 +33,7 @@ export class LoginComponent {
       }
     );
   }
+  
   forgotPassword() {
     this.router.navigate(['/forgot-password']);
   }
