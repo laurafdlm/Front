@@ -15,11 +15,8 @@ export class AppComponent {
     const currentUrl = this.router.url;
     const publicRoutes = ['/reset-password', '/forgot-password', '/register', '/login'];
   
-    // Redirigir solo si no está autenticado y no está en una ruta pública
-    if (!this.isLoggedIn() && !publicRoutes.some(route => currentUrl.startsWith(route))) {
-      this.router.navigate(['/login']);
-    }
   }
+  
   
 
   isLoggedIn(): boolean {
