@@ -10,6 +10,7 @@ import { ForgotPasswordComponent } from './app/forgot-password/forgot-password.c
 import { AuthGuard } from './app/auth.guard'; // Importa el guard
 import { ResetPasswordComponent } from './app/reset-password/reset-password.component'; // Asegúrate de importar ResetPasswordComponent
 import { ProfileComponent } from './app/profile/profile.component'; // Asegúrate de importar ProfileComponent
+import { PaymentComponent } from './app/payment/payment.component'; // Asegúrate de importar PaymentComponent
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
+  { path: 'payment', component: PaymentComponent, canActivate: [AuthGuard] }, 
 
 ];
 

@@ -110,11 +110,13 @@ export class UserService {
   }
 
   // Realizar pago
-  processPayment(): Observable<any> {
+  processPayment(amount: number, paymentMethodId: string): Observable<any> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({ token: token || '' });
-    return this.http.post(`${this.baseUrl}/payment`, {}, { headers });
+    const body = { amount: amount * 100, paymentMethodId }; // Convertir euros a centavos
+    return this.http.post(`${this.baseUrl}/payment`, body, { headers });
   }
+  
 
 
 }

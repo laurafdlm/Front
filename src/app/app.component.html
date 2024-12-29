@@ -15,6 +15,10 @@
         <li class="nav-item" *ngIf="isLoggedIn">
           <a class="nav-link text-white" (click)="logout()">Cerrar Sesión</a>
         </li>
+        <li class="nav-item" *ngIf="isLoggedIn">
+          <a class="nav-link text-white" routerLink="/payment">Realizar Pago</a>
+        </li>
+        
       </ul>
     </div>
   </div>
