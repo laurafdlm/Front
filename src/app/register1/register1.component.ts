@@ -31,15 +31,16 @@ export class Register1Component {
       (response: any) => {
         console.log('Registro exitoso:', response);
   
-        // Asegúrate de guardar el token si lo devuelve el backend
-        if (response.token) {
-          localStorage.setItem('token', response.token);
+        // Guarda el token si el backend lo devuelve
+        const token = response.token;
+        if (token) {
+          localStorage.setItem('token', token);
         }
   
         this.message = 'Usuario registrado con éxito.';
         this.isSuccess = true;
   
-        // Redirigir a la página principal
+        // Redirige al home
         this.router.navigate(['/home']);
       },
       (error: any) => {
@@ -49,5 +50,6 @@ export class Register1Component {
       }
     );
   }
+  
   
 }

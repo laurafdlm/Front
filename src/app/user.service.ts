@@ -1,21 +1,37 @@
-// UserService actualizado
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  private baseUrl = '/users'; // Usar ruta relativa para aprovechar el proxy
+  private baseUrl = '/users'; // Usar ruta relativa para el proxy
+  private authStatusSubject = new BehaviorSubject<boolean>(this.hasToken());
+  authStatus = this.authStatusSubject.asObservable();
 
   constructor(private http: HttpClient) {}
+
+  private hasToken(): boolean {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      return !!localStorage.getItem('token');
+    }
+    return false;
+  }
 
   // Registro de usuarios
   register1(email: string, pwd1: string, pwd2: string): Observable<any> {
     const body = { email, pwd1, pwd2 };
-    return this.http.post(`${this.baseUrl}/registrar1`, body);
+    return this.http.post(`${this.baseUrl}/registrar1`, body).pipe(
+      tap((response: any) => {
+        const token = response.token;
+        if (token && typeof window !== 'undefined') {
+          localStorage.setItem('token', token);
+          this.authStatusSubject.next(true);
+        }
+      })
+    );
   }
 
   // Inicio de sesión
@@ -23,14 +39,26 @@ export class UserService {
     const body = { email, pwd: password };
     return this.http.put(`${this.baseUrl}/login1`, body, { observe: 'response' }).pipe(
       tap((response: any) => {
-        const token = response.body.token; // Obtén el token del backend
-        if (token) {
-          localStorage.setItem('token', token); // Almacénalo en localStorage
+        const token = response.body.token;
+        if (token && typeof window !== 'undefined') {
+          localStorage.setItem('token', token);
+          this.authStatusSubject.next(true);
         }
       })
     );
   }
-  
+
+  // Cerrar sesión
+  logout(): void {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      localStorage.removeItem('token');
+    }
+    this.authStatusSubject.next(false);
+  }
+
+  isAuthenticated(): boolean {
+    return this.authStatusSubject.value;
+  }
 
   // Recuperación de contraseña
   sendPasswordRecovery(email: string): Observable<any> {
@@ -87,5 +115,7 @@ export class UserService {
     const headers = new HttpHeaders({ token: token || '' });
     return this.http.post(`${this.baseUrl}/payment`, {}, { headers });
   }
+
+
 }
 

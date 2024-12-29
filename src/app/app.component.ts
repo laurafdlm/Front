@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit  } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common'; // Importar CommonModule
 import { RouterModule } from '@angular/router'; // Importar RouterModule
+import { UserService } from './user.service';
 
 @Component({
   selector: 'app-root',
@@ -10,30 +11,19 @@ import { RouterModule } from '@angular/router'; // Importar RouterModule
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent {
-  constructor(private router: Router) {
-    const currentUrl = this.router.url;
-    const publicRoutes = ['/reset-password', '/forgot-password', '/register', '/login'];
-  
-  }
-  
-  
+export class AppComponent implements OnInit {
+  isLoggedIn = false;
 
-  isLoggedIn(): boolean {
-    if (typeof window !== 'undefined' && window.localStorage) {
-      return !!localStorage.getItem('token');
-    }
-    return false;
+  constructor(private userService: UserService, private router: Router) {}
+
+  ngOnInit(): void {
+    this.userService.authStatus.subscribe((status) => {
+      this.isLoggedIn = status;
+    });
   }
+
   logout(): void {
-    // Eliminar la cookie del token
-    document.cookie = 'token=;path=/;max-age=0';
-  
-    // Informar al usuario y redirigir al login
-    alert('Has cerrado sesión');
+    this.userService.logout();
     this.router.navigate(['/login']);
   }
-  
-  
-
 }
