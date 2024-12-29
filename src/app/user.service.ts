@@ -57,12 +57,16 @@ export class UserService {
     return this.http.put(`${this.baseUrl}/profile/update`, updates, { headers });
   }
 
-  // Eliminar cuenta del usuario
-  deleteAccount(): Observable<any> {
+  deleteAccount(): Observable<string> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({ token: token || '' });
-    return this.http.delete(`${this.baseUrl}/delete-account`, { headers });
+    return this.http.delete<string>(`${this.baseUrl}/delete-account`, {
+      headers,
+      responseType: 'text' as 'json', // Configuración para texto
+    });
   }
+  
+  
 
   // Restablecimiento de contraseña
   resetPassword(token: string, password: string): Observable<any> {

@@ -55,22 +55,24 @@ export class ProfileComponent implements OnInit {
 
   deleteAccount(): void {
     if (confirm('¿Estás seguro de que deseas eliminar tu cuenta? Esta acción no se puede deshacer.')) {
-      this.userService.deleteAccount().subscribe(
-        (response) => {
-          console.log('Cuenta eliminada con éxito:', response);
-          this.message = 'Cuenta eliminada con éxito.';
-          this.isSuccess = true;
-          // Redirigir al login después de eliminar la cuenta
-          setTimeout(() => {
-            window.location.href = '/login';
-          }, 2000);
+      this.userService.deleteAccount().subscribe({
+        next: () => {
+          console.log('Cuenta eliminada correctamente');
+          alert('Cuenta eliminada correctamente');
+          // Aquí puedes redirigir al usuario, por ejemplo:
+          this.router.navigate(['/login']);
         },
-        (error) => {
-          console.error('Error al eliminar la cuenta:', error);
-          this.message = 'Error al eliminar la cuenta.';
-          this.isSuccess = false;
-        }
-      );
+        error: (err) => {
+          console.error('Error al eliminar la cuenta:', err);
+          if (err.status === 403) {
+            alert('Error: Token inválido');
+          } else {
+            alert('Error al eliminar la cuenta');
+          }
+        },
+      });
+      
     }
   }
+  
 }
