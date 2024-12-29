@@ -20,7 +20,7 @@ const routes: Routes = [
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
-  { path: 'payment', component: PaymentComponent, canActivate: [AuthGuard] }, 
+  { path: 'payment', component: PaymentComponent, canActivate: [AuthGuard] },
 
 ];
 

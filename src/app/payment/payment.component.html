@@ -4,7 +4,7 @@
         <h2>Realizar Pago</h2>
       </div>
       <div class="card-body">
-        <form>
+        <form (submit)="processPayment(); $event.preventDefault()">
           <div class="mb-3">
             <label for="amount" class="form-label">Monto:</label>
             <input
@@ -17,23 +17,9 @@
             />
           </div>
           <div class="mb-3">
-            <label for="paymentMethod" class="form-label">ID del Método de Pago:</label>
-            <input
-              type="text"
-              id="paymentMethod"
-              [(ngModel)]="paymentMethodId"
-              name="paymentMethod"
-              class="form-control"
-              required
-            />
+            <div id="card-element" class="form-control"></div>
           </div>
-          <button
-            type="button"
-            class="btn btn-primary w-100"
-            (click)="processPayment()"
-          >
-            Pagar
-          </button>
+          <button type="submit" class="btn btn-primary w-100">Pagar</button>
         </form>
         <div
           *ngIf="message"

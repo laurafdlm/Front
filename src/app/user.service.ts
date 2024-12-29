@@ -109,13 +109,19 @@ export class UserService {
     return this.http.get(`${this.baseUrl}/payment-status`, { headers });
   }
 
-  // Realizar pago
-  processPayment(amount: number, paymentMethodId: string): Observable<any> {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders({ token: token || '' });
-    const body = { amount: amount * 100, paymentMethodId }; // Convertir euros a centavos
+  processPayment(amount: number, paymentMethodId: string, email: string): Observable<any> {
+    const token = localStorage.getItem('token'); // Recupera el token del usuario
+    const headers = new HttpHeaders({ token: token || '' }); // Incluye el token en los headers
+  
+    const body = {
+      amount: amount * 100, // Convierte euros a centavos
+      paymentMethodId, // ID del método de pago
+      email, // Email dinámico del usuario
+    };
+  
     return this.http.post(`${this.baseUrl}/payment`, body, { headers });
   }
+  
   
 
 
