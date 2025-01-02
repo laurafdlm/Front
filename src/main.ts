@@ -33,6 +33,8 @@ const routes: Routes = [
   { path: 'lists', component: ListComponent, canActivate: [AuthGuard] },
   { path: 'lists/:id/products', component: ProductsComponent, canActivate: [AuthGuard] },
   { path: 'invitation', component: InvitationComponent }, // Invitaciones no necesitan autenticación
+  { path: 'lists/:id/products', component: ProductsComponent, canActivate: [AuthGuard] },
+
 ];
 
 bootstrapApplication(AppComponent, {

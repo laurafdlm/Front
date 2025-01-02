@@ -1,1 +1,80 @@
-<p>products works!</p>
+<div class="container mt-5">
+    <div class="card shadow">
+      <div class="card-header bg-primary text-white text-center">
+        <h2>Gestión de Productos</h2>
+      </div>
+      <div class="card-body">
+        <!-- Mostrar mensaje de error o éxito -->
+        <div
+          *ngIf="message"
+          class="alert"
+          [ngClass]="{ 'alert-success': !message.includes('Error'), 'alert-danger': message.includes('Error') }"
+        >
+          {{ message }}
+        </div>
+  
+        <!-- Formulario para añadir productos -->
+        <form (ngSubmit)="addProduct()">
+          <div class="mb-3">
+            <label for="newProductName" class="form-label">Nombre del Producto:</label>
+            <input
+              type="text"
+              id="newProductName"
+              [(ngModel)]="newProductName"
+              name="newProductName"
+              class="form-control"
+              placeholder="Introduce el nombre del producto"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="newProductQuantity" class="form-label">Cantidad:</label>
+            <input
+              type="number"
+              id="newProductQuantity"
+              [(ngModel)]="newProductQuantity"
+              name="newProductQuantity"
+              class="form-control"
+              placeholder="Introduce la cantidad"
+              required
+            />
+          </div>
+          <button type="submit" class="btn btn-primary w-100">Añadir Producto</button>
+        </form>
+  
+        <hr />
+  
+        <!-- Lista de productos -->
+        <h3 class="text-center mt-4">Productos</h3>
+        <div *ngIf="products.length === 0" class="text-center text-muted">
+          No hay productos en esta lista.
+        </div>
+        <ul class="list-group mt-3" *ngIf="products.length > 0">
+          <li
+            *ngFor="let product of products"
+            class="list-group-item d-flex justify-content-between align-items-center"
+          >
+            <div>
+              <strong>{{ product.name }}</strong> - {{ product.udsCompradas }}/{{ product.udsPedidas }} compradas
+            </div>
+            <div class="d-flex align-items-center">
+              <input
+                type="number"
+                [(ngModel)]="product.unitsToBuy"
+                class="form-control form-control-sm me-2"
+                placeholder="Cantidad"
+                style="width: 80px;"
+              />
+              <button
+                class="btn btn-success btn-sm"
+                (click)="buyProduct(product.id, product.unitsToBuy)"
+              >
+                Comprar
+              </button>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  
