@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class ListService {
-  private baseUrl = '/listas';
+  private baseUrl = '/listas'; // La base URL relativa
 
   constructor(private http: HttpClient) {}
 
@@ -36,19 +36,18 @@ export class ListService {
   }
 
   deleteProduct(productId: string): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/eliminarProducto`, {
-      body: { idProducto: productId },
-    });
+    const headers = this.getAuthHeaders();
+    return this.http.delete<void>(`${this.baseUrl}/eliminarProducto`, { headers, body: { idProducto: productId } });
   }
 
-  shareList(idLista: string, email: string): Observable<any> {
-    const body = { idLista, email };
-    return this.http.post('/listas/compartirLista', body);
+  shareList(listId: string, email: string): Observable<any> {
+    const headers = this.getAuthHeaders();
+    return this.http.post<any>(`${this.baseUrl}/compartirLista`, { idLista: listId, email }, { headers });
   }
-  
+
   acceptInvitation(sharedUrl: string): Observable<any> {
     const body = { sharedUrl };
-    return this.http.post('/listas/aceptarInvitacion', body);
+    return this.http.post(`${this.baseUrl}/aceptarInvitacion`, body);
   }
 
   private getAuthHeaders(): HttpHeaders {

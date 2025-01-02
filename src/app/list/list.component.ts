@@ -79,14 +79,15 @@ export class ListComponent implements OnInit {
     }
   }
 
-  shareList(idLista: string | null, email: string): void {
-    if (!idLista) {
-      this.message = 'No se pudo compartir la lista. Seleccione una lista válida.';
+  shareList(): void {
+    if (!this.selectedListId || !this.shareEmail.trim()) {
+      this.message = 'Debe seleccionar una lista e ingresar un correo electrónico válido.';
       return;
     }
-    this.listService.shareList(idLista, email).subscribe({
+  
+    this.listService.shareList(this.selectedListId, this.shareEmail).subscribe({
       next: () => {
-        this.message = `Invitación enviada a ${email}`;
+        this.message = `Invitación enviada a ${this.shareEmail}`;
       },
       error: (error) => {
         console.error('Error al compartir la lista:', error);
@@ -94,5 +95,6 @@ export class ListComponent implements OnInit {
       },
     });
   }
+  
   
 }
