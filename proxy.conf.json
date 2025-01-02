@@ -1,9 +1,14 @@
 {
-    "/users/*": {
-      "target": "http://localhost:9000",
-      "secure": false,
-      "logLevel": "debug",
-      "changeOrigin": true
-    }
+  "/users/*": {
+    "target": "http://localhost:9000",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
+  },
+  "/listas/*": {
+    "target": "http://localhost:80",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
   }
-  
+}
