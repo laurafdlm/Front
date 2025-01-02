@@ -1,40 +1,40 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+// src/app/invitation/invitation.component.ts
+import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ListService } from '../list.service';
 
 @Component({
   selector: 'app-invitation',
-  standalone: true,
   templateUrl: './invitation.component.html',
   styleUrls: ['./invitation.component.css'],
 })
-export class InvitationComponent implements OnInit {
-  sharedUrl: string | null = null;
-  message: string | null = null;
+export class InvitationComponent {
+  sharedUrl!: string;
 
-  constructor(private listService: ListService, private route: ActivatedRoute) {}
-
-  ngOnInit(): void {
-    this.sharedUrl = this.route.snapshot.queryParamMap.get('sharedUrl');
-    if (!this.sharedUrl) {
-      this.message = 'URL de invitación no válida.';
-    }
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private listService: ListService
+  ) {
+    this.sharedUrl = this.route.snapshot.queryParamMap.get('sharedUrl') || '';
   }
 
   acceptInvitation(): void {
-    if (!this.sharedUrl) return;
-    this.listService.acceptInvitation(this.sharedUrl).subscribe(
-      (list) => {
-        this.message = `Has aceptado la invitación a la lista: ${list.name}`;
+    this.listService.acceptInvitation(this.sharedUrl).subscribe({
+      next: () => {
+        alert('Invitación aceptada. Ahora puedes ver y gestionar la lista.');
+        this.router.navigate(['/home']);
       },
-      (error) => {
+      error: (error) => {
         console.error('Error al aceptar la invitación:', error);
-        this.message = 'Error al aceptar la invitación.';
-      }
-    );
+        alert('No se pudo procesar la invitación.');
+      },
+    });
   }
 
   rejectInvitation(): void {
-    this.message = 'Has rechazado la invitación.';
+    alert('Has rechazado la invitación.');
+    this.router.navigate(['/home']);
   }
 }
+

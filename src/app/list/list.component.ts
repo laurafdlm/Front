@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms'; // Importa FormsModule
 @Component({
   selector: 'app-list',
   standalone: true,
-  imports: [CommonModule, FormsModule], 
+  imports: [CommonModule, FormsModule],
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.css'],
 })
@@ -15,6 +15,8 @@ export class ListComponent implements OnInit {
   lists: any[] = [];
   newListName: string = '';
   message: string | null = null;
+  shareEmail: string = ''; // Propiedad para almacenar el correo electrónico
+  selectedListId: string | null = null; // Propiedad para almacenar el ID de la lista seleccionada
 
   constructor(private listService: ListService, private router: Router) {}
 
@@ -67,18 +69,30 @@ export class ListComponent implements OnInit {
     this.router.navigate([`/lists/${listId}/products`]);
   }
 
-  shareList(listId: string): void {
-    const email = prompt('Introduce el email del usuario con quien compartir esta lista:');
-    if (!email) return;
-
-    this.listService.shareList(listId, email).subscribe(
-      (response) => {
-        alert(`Lista compartida exitosamente. Enlace enviado a: ${email}`);
-      },
-      (error) => {
-        console.error('Error al compartir la lista:', error);
-        this.message = 'Error al compartir la lista.';
-      }
-    );
+  openShareModal(listId: string): void {
+    this.selectedListId = listId; // Almacena el ID de la lista seleccionada
+    this.shareEmail = ''; // Limpia el correo en cada apertura del modal
+    const modalElement = document.getElementById('shareModal');
+    if (modalElement) {
+      const bootstrapModal = new (window as any).bootstrap.Modal(modalElement);
+      bootstrapModal.show();
+    }
   }
+
+  shareList(idLista: string | null, email: string): void {
+    if (!idLista) {
+      this.message = 'No se pudo compartir la lista. Seleccione una lista válida.';
+      return;
+    }
+    this.listService.shareList(idLista, email).subscribe({
+      next: () => {
+        this.message = `Invitación enviada a ${email}`;
+      },
+      error: (error) => {
+        console.error('Error al compartir la lista:', error);
+        this.message = 'Error al enviar la invitación. Inténtelo de nuevo.';
+      },
+    });
+  }
+  
 }

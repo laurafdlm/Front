@@ -41,13 +41,14 @@ export class ListService {
     });
   }
 
-  shareList(listId: string, email: string): Observable<any> {
-    const headers = this.getAuthHeaders();
-    return this.http.post<any>(`${this.baseUrl}/compartirLista`, { idLista: listId, email }, { headers });
+  shareList(idLista: string, email: string): Observable<any> {
+    const body = { idLista, email };
+    return this.http.post('/listas/compartirLista', body);
   }
-
+  
   acceptInvitation(sharedUrl: string): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/aceptarInvitacion`, { sharedUrl });
+    const body = { sharedUrl };
+    return this.http.post('/listas/aceptarInvitacion', body);
   }
 
   private getAuthHeaders(): HttpHeaders {
