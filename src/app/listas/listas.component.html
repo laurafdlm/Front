@@ -1,0 +1,24 @@
+<div class="container">
+    <h1>Mis Listas</h1>
+    <button (click)="crearLista()">Crear Nueva Lista</button>
+    <ul>
+      <li *ngFor="let lista of listas">
+        <strong>{{ lista.name }}</strong>
+        <button (click)="seleccionarLista(lista)">Ver</button>
+        <button (click)="eliminarLista(lista.id)">Eliminar</button>
+        <button (click)="compartirLista(lista.id)">Compartir</button>
+      </li>
+    </ul>
+    <div *ngIf="listaSeleccionada">
+      <h2>Lista Seleccionada: {{ listaSeleccionada.name }}</h2>
+      <ul>
+        <li *ngFor="let producto of listaSeleccionada.productos">
+          {{ producto.name }} - {{ producto.udsPedidas }} unidades
+          <button (click)="comprarProducto(listaSeleccionada, producto)">Comprar</button>
+          <button (click)="eliminarProducto(listaSeleccionada, producto.id)">Eliminar</button>
+        </li>
+      </ul>
+      <button (click)="agregarProducto(listaSeleccionada)">Agregar Producto</button>
+    </div>
+  </div>
+  

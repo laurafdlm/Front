@@ -90,9 +90,15 @@ export class PaymentComponent implements OnInit {
     // Llamar al backend para crear un PaymentIntent
     this.userService.processPayment(this.amount * 100, paymentMethod!.id, this.email).subscribe(
       (response: any) => {
-        console.log('Respuesta del backend:', response);
+        if (!response || !response.clientSecret) {
+          console.error('Respuesta inválida del backend:', response);
+          this.message = 'Hubo un problema al procesar el pago.';
+          this.isSuccess = false;
+          return;
+        }
+    
         const clientSecret = response.clientSecret;
-
+    
         // Confirmar el pago en el frontend
         this.stripe!.confirmCardPayment(clientSecret).then((result: any) => {
           if (result.error) {
@@ -112,5 +118,7 @@ export class PaymentComponent implements OnInit {
         this.isSuccess = false;
       }
     );
+    
+    
   }
 }

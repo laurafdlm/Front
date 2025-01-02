@@ -114,7 +114,7 @@ export class UserService {
     const headers = new HttpHeaders({ token: token || '' }); // Incluye el token en los headers
   
     const body = {
-      amount: amount * 100, // Convierte euros a centavos
+      amount: amount, // En centavos ya no es necesario multiplicar si el backend lo hace
       paymentMethodId, // ID del método de pago
       email, // Email dinámico del usuario
     };
@@ -122,8 +122,6 @@ export class UserService {
     return this.http.post(`${this.baseUrl}/payment`, body, { headers });
   }
   
-  
-
 
 }
 
