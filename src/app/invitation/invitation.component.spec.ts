@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CompartirListaComponent } from './compartir-lista.component';
+import { InvitationComponent } from './invitation.component';
 
-describe('CompartirListaComponent', () => {
-  let component: CompartirListaComponent;
-  let fixture: ComponentFixture<CompartirListaComponent>;
+describe('InvitationComponent', () => {
+  let component: InvitationComponent;
+  let fixture: ComponentFixture<InvitationComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CompartirListaComponent]
+      imports: [InvitationComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(CompartirListaComponent);
+    fixture = TestBed.createComponent(InvitationComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

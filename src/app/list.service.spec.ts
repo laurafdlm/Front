@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ListaService } from './lista.service';
+import { ListService } from './list.service';
 
-describe('ListaService', () => {
-  let service: ListaService;
+describe('ListService', () => {
+  let service: ListService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(ListaService);
+    service = TestBed.inject(ListService);
   });
 
   it('should be created', () => {

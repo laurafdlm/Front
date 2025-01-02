@@ -1,5 +1,8 @@
-<div class="container">
-    <h1>Bienvenido a la página principal</h1>
-    <p>Acceso permitido. ¡Disfruta de tu experiencia!</p>
+<div class="container mt-5">
+  <h1>Bienvenido a la aplicación de Lista de la Compra</h1>
+  <p>Selecciona una de las siguientes opciones:</p>
+  <div class="d-flex flex-column gap-3 mt-4">
+    <button class="btn btn-primary btn-lg" (click)="navigateToLists()">Gestionar Listas</button>
+    <button class="btn btn-secondary btn-lg" (click)="navigateToProfile()">Ver Perfil</button>
   </div>
-  
+</div>
