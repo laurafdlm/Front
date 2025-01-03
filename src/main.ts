@@ -18,6 +18,7 @@ import { PaymentComponent } from './app/payment/payment.component';
 import { ListComponent } from './app/list/list.component';
 import { ProductsComponent } from './app/products/products.component';
 import { InvitationComponent } from './app/invitation/invitation.component';
+import { InvitationAcceptedComponent } from './app/invitation-accepted/invitation-accepted.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -34,6 +35,8 @@ const routes: Routes = [
   { path: 'lists/:id/products', component: ProductsComponent, canActivate: [AuthGuard] },
   { path: 'invitation', component: InvitationComponent }, // Invitaciones no necesitan autenticación
   { path: 'lists/:id/products', component: ProductsComponent, canActivate: [AuthGuard] },
+  { path: 'invitation-accepted', component: InvitationAcceptedComponent },
+
 
 ];
 

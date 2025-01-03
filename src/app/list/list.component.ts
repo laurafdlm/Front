@@ -17,11 +17,14 @@ export class ListComponent implements OnInit {
   message: string | null = null;
   shareEmail: string = ''; // Propiedad para almacenar el correo electrónico
   selectedListId: string | null = null; // Propiedad para almacenar el ID de la lista seleccionada
+  sharedLists: any[] = [];
 
   constructor(private listService: ListService, private router: Router) {}
 
+
   ngOnInit(): void {
     this.loadLists();
+    this.loadSharedLists(); // Cargar listas compartidas al iniciar el componente
   }
 
   loadLists(): void {
@@ -35,6 +38,17 @@ export class ListComponent implements OnInit {
       }
     );
   }
+  loadSharedLists(): void {
+    this.listService.getSharedLists().subscribe(
+      (data) => {
+        this.sharedLists = data; // Asignar las listas compartidas
+      },
+      (error) => {
+        console.error('Error al cargar listas compartidas:', error);
+      }
+    );
+  }
+  
 
   createList(): void {
     if (!this.newListName.trim()) {

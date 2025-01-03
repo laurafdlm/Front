@@ -5,6 +5,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { HomeComponent } from './home/home.component';
 import { PaymentComponent } from './payment/payment.component'; // Asegúrate de importar el componente
+import { InvitationAcceptedComponent } from './invitation-accepted/invitation-accepted.component';
 import { AuthGuard } from './auth.guard';
 
 export const routes: Routes = [
@@ -15,4 +16,6 @@ export const routes: Routes = [
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'payment', component: PaymentComponent, canActivate: [AuthGuard] }, // Añade esta línea
+  { path: 'invitation-accepted', component: InvitationAcceptedComponent },
+
 ];

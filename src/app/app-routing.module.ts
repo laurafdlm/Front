@@ -7,6 +7,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { HomeComponent } from './home/home.component';
 import { PaymentComponent } from './payment/payment.component'; // Asegúrate de importar el componente
 import { AuthGuard } from './auth.guard';
+import { InvitationAcceptedComponent } from './invitation-accepted/invitation-accepted.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -16,6 +17,8 @@ const routes: Routes = [
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'payment', component: PaymentComponent, canActivate: [AuthGuard] }, // Añade esta línea
+  { path: 'invitation-accepted', component: InvitationAcceptedComponent },
+
 ];
 
 @NgModule({

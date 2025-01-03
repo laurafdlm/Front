@@ -54,4 +54,10 @@ export class ListService {
     const token = localStorage.getItem('token');
     return new HttpHeaders({ Authorization: token || '' });
   }
+  getSharedLists(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/listasCompartidas`, {
+      headers: { Authorization: localStorage.getItem('token') || '' },
+    });
+  }
+  
 }
