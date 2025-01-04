@@ -21,9 +21,12 @@ export class ListService {
   }
 
   deleteList(listId: string): Observable<void> {
-    const headers = this.getAuthHeaders();
-    return this.http.delete<void>(`${this.baseUrl}/eliminarLista`, { headers, body: { idLista: listId } });
+    const token = localStorage.getItem('token'); // Obtener el token
+    return this.http.delete<void>(`${this.baseUrl}/eliminarLista?idLista=${listId}&token=${token}`);
   }
+  
+  
+  
 
   getProducts(listId: string): Observable<any[]> {
     const headers = this.getAuthHeaders().set('idLista', listId);

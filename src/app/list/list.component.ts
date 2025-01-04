@@ -70,7 +70,7 @@ export class ListComponent implements OnInit {
   deleteList(listId: string): void {
     this.listService.deleteList(listId).subscribe(
       () => {
-        this.lists = this.lists.filter((list) => list.id !== listId);
+        this.lists = this.lists.filter((list) => list.id !== listId); // Eliminar la lista localmente
       },
       (error) => {
         console.error('Error al eliminar la lista:', error);
@@ -78,6 +78,7 @@ export class ListComponent implements OnInit {
       }
     );
   }
+  
 
   navigateToProducts(listId: string): void {
     this.router.navigate([`/lists/${listId}/products`]);
