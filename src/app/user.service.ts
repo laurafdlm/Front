@@ -47,7 +47,12 @@ export class UserService {
       })
     );
   }
-
+  cancelPremium(): Observable<any> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({ token: token || '' });
+    return this.http.post(`${this.baseUrl}/cancel-premium`, {}, { headers });
+  }
+  
   // Cerrar sesión
   logout(): void {
     if (typeof window !== 'undefined' && window.localStorage) {
@@ -122,6 +127,12 @@ export class UserService {
     return this.http.post(`${this.baseUrl}/payment`, body, { headers });
   }
   
-
+  markAsPaid(): Observable<any> {
+    const token = localStorage.getItem('token'); // Recupera el token del usuario
+    const headers = new HttpHeaders({ token: token || '' }); // Incluye el token en los headers
+    return this.http.post(`${this.baseUrl}/pay`, {}, { headers });
+  }
+  
+  
 }
 

@@ -19,19 +19,15 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.userService.getProfile().subscribe(
-      (data) => {
-        this.user = data;
-      },
-      (error) => {
-        if (error.status === 401) {
-          this.message = 'Token inválido o expirado. Por favor, inicie sesión de nuevo.';
-          this.router.navigate(['/login']);
-        } else {
-          this.message = 'Error al cargar los datos del perfil.';
+        (data) => {
+            this.user = data;
+        },
+        (error) => {
+            this.message = 'Error al cargar los datos del perfil.';
         }
-      }
     );
-  }
+}
+
   
 
   loadProfile(): void {
@@ -74,5 +70,22 @@ export class ProfileComponent implements OnInit {
       
     }
   }
+  cancelSubscription(): void {
+    if (confirm('¿Estás seguro de que deseas cancelar tu suscripción premium?')) {
+      this.userService.cancelPremium().subscribe({
+        next: () => {
+          this.message = 'Suscripción premium cancelada con éxito.';
+          this.isSuccess = true;
+          this.loadProfile(); // Refrescar los datos del perfil
+        },
+        error: (err) => {
+          console.error('Error al cancelar la suscripción:', err);
+          this.message = 'Error al cancelar la suscripción. Inténtalo nuevamente.';
+          this.isSuccess = false;
+        },
+      });
+    }
+  }
+  
   
 }

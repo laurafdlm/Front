@@ -1,36 +1,56 @@
 <div class="container mt-5">
-    <div class="card shadow">
-      <div class="card-header text-center bg-primary text-white">
-        <h2>Perfil</h2>
+  <div class="card shadow">
+    <div class="card-header text-center bg-primary text-white">
+      <h2>Perfil</h2>
+    </div>
+    <div class="card-body">
+      <div class="mb-3">
+        <label class="form-label">Correo Electrónico:</label>
+        <p class="form-control">{{ user.email }}</p>
       </div>
-      <div class="card-body">
-        <div class="mb-3">
-          <label class="form-label">Correo Electrónico:</label>
-          <p class="form-control">{{ user.email }}</p>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Estado de Pago:</label>
-          <p class="form-control">
-            {{ user.isPaid ? 'Usuario Premium (ha pagado)' : 'Usuario Básico (no ha pagado)' }}
-          </p>
-        </div>
-        <button
-          type="button"
-          class="btn btn-danger w-100"
-          (click)="deleteAccount()"
-        >
-          Eliminar Cuenta
-        </button>
-  
-        <!-- Mensaje de éxito o error -->
-        <div
-          *ngIf="message"
-          class="mt-3 alert"
-          [ngClass]="{ 'alert-success': isSuccess, 'alert-danger': !isSuccess }"
-        >
-          {{ message }}
-        </div>
+      <div class="mb-3">
+        <label class="form-label">Estado de Pago:</label>
+        <p class="form-control">
+          {{ user.isPaid ? 'Usuario Premium (ha pagado)' : 'Usuario Básico (no ha pagado)' }}
+        </p>
+      </div>
+      <div *ngIf="user.premiumUntil" class="mb-3">
+        <label class="form-label">Suscripción válida hasta:</label>
+        <p class="form-control">
+          {{ user.premiumUntil | date: 'longDate' }}
+        </p>
+      </div>
+      <div *ngIf="user.premiumUntil" class="mb-3">
+        <label class="form-label">Suscripción válida hasta:</label>
+        <p class="form-control">
+            {{ user.premiumUntil | date: 'longDate' }}
+        </p>
+    </div>
+    
+      <button
+        *ngIf="user.isPaid"
+        type="button"
+        class="btn btn-warning w-100 mb-3"
+        (click)="cancelSubscription()"
+      >
+        Anular Suscripción
+      </button>
+      <button
+        type="button"
+        class="btn btn-danger w-100"
+        (click)="deleteAccount()"
+      >
+        Eliminar Cuenta
+      </button>
+
+      <!-- Mensaje de éxito o error -->
+      <div
+        *ngIf="message"
+        class="mt-3 alert"
+        [ngClass]="{ 'alert-success': isSuccess, 'alert-danger': !isSuccess }"
+      >
+        {{ message }}
       </div>
     </div>
   </div>
-  
+</div>

@@ -16,33 +16,35 @@ export class ResetPasswordComponent implements OnInit {
   password: string = '';
   message: string | null = null;
   isSuccess: boolean = false;
+
+
+
   isTokenValid: boolean = false;
 
   constructor(private route: ActivatedRoute, private router: Router, private http: HttpClient) {}
 
-  ngOnInit(): void {
-    this.token = this.route.snapshot.queryParamMap.get('token');
-    if (!this.token) {
-      this.message = 'Token inválido o faltante.';
-      this.isTokenValid = false;
-      return;
-    }
-  
-    // Llama al backend para validar el token
-    this.http.get<{ message: string }>(`http://localhost:9000/users/validate-token?token=${this.token}`).subscribe(
-      (response) => {
-        console.log('Validación de token exitosa:', response);
-        this.isTokenValid = true; // Token válido
-      },
-      (error) => {
-        console.error('Error al validar el token:', error);
-        this.message = 'El token es inválido o ha expirado.'; // Mensaje para token inválido
-        this.isTokenValid = false;
-      }
-    );
+ngOnInit(): void {
+  this.token = this.route.snapshot.queryParamMap.get('token');
+  if (!this.token) {
+    this.message = 'Token inválido o faltante.';
+    this.isTokenValid = false;
+    return;
   }
-  
-  
+
+  this.http.get<{ message: string }>(`http://localhost:9000/users/validate-token?token=${this.token}`).subscribe({
+    next: (response) => {
+      console.log('Validación de token exitosa:', response);
+      this.message = response.message; // Muestra el mensaje del backend
+      this.isTokenValid = true; // Token válido
+    },
+    error: (err) => {
+      console.error('Error al validar el token:', err);
+      this.message = err.error?.message || 'El token es inválido o ha expirado.';
+      this.isTokenValid = false;
+    },
+  });
+}
+
   
   
 
