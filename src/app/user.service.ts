@@ -33,7 +33,9 @@ export class UserService {
       })
     );
   }
-
+  getToken(): string | null {
+    return localStorage.getItem('token'); // O 'sessionStorage' si lo estás usando
+  }
   // Inicio de sesión
   login(email: string, password: string): Observable<any> {
     const body = { email, pwd: password };
@@ -47,10 +49,17 @@ export class UserService {
       })
     );
   }
+
   cancelPremium(): Observable<any> {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders({ token: token || '' });
-    return this.http.post(`${this.baseUrl}/cancel-premium`, {}, { headers });
+    const token = this.getToken();
+    if (!token) {
+      throw new Error('Token no encontrado. El usuario no está autenticado.');
+    }
+    return this.http.put(`${this.baseUrl}/users/cancel-premium`, null, {
+      headers: new HttpHeaders({
+        token: token,
+      }),
+    });
   }
   
   // Cerrar sesión

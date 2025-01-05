@@ -11,24 +11,15 @@ import { Router } from '@angular/router';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-  user: any = {}; // Aquí se almacenan los datos del usuario
+  user: any = {}; // Datos del usuario
   message: string | null = null;
   isSuccess: boolean = false;
+
   constructor(private userService: UserService, private router: Router) {}
 
-
   ngOnInit(): void {
-    this.userService.getProfile().subscribe(
-        (data) => {
-            this.user = data;
-        },
-        (error) => {
-            this.message = 'Error al cargar los datos del perfil.';
-        }
-    );
-}
-
-  
+    this.loadProfile();
+  }
 
   loadProfile(): void {
     this.userService.getProfile().subscribe(
@@ -36,8 +27,9 @@ export class ProfileComponent implements OnInit {
         this.user = data;
       },
       (error) => {
+        console.error('Error al cargar el perfil:', error);
         if (error.status === 400) {
-          this.message = 'Token inválido o expirado. Por favor, inicie sesión de nuevo.';
+          this.message = 'Token inválido o expirado. Por favor, inicie sesión nuevamente.';
         } else {
           this.message = 'Error al cargar los datos del perfil.';
         }
@@ -45,47 +37,41 @@ export class ProfileComponent implements OnInit {
       }
     );
   }
-  
-  
-  
 
   deleteAccount(): void {
     if (confirm('¿Estás seguro de que deseas eliminar tu cuenta? Esta acción no se puede deshacer.')) {
       this.userService.deleteAccount().subscribe({
         next: () => {
-          console.log('Cuenta eliminada correctamente');
           alert('Cuenta eliminada correctamente');
-          // Aquí puedes redirigir al usuario, por ejemplo:
-          this.router.navigate(['/login']);
+          this.router.navigate(['/login']); // Redirigir al usuario
         },
         error: (err) => {
           console.error('Error al eliminar la cuenta:', err);
-          if (err.status === 403) {
-            alert('Error: Token inválido');
-          } else {
-            alert('Error al eliminar la cuenta');
-          }
+          this.message = err.status === 403 ? 'Error: Token inválido.' : 'Error al eliminar la cuenta.';
+          this.isSuccess = false;
         },
       });
-      
     }
   }
+
   cancelSubscription(): void {
     if (confirm('¿Estás seguro de que deseas cancelar tu suscripción premium?')) {
       this.userService.cancelPremium().subscribe({
         next: () => {
           this.message = 'Suscripción premium cancelada con éxito.';
           this.isSuccess = true;
-          this.loadProfile(); // Refrescar los datos del perfil
+          this.loadProfile(); // Actualizar el perfil
         },
         error: (err) => {
           console.error('Error al cancelar la suscripción:', err);
-          this.message = 'Error al cancelar la suscripción. Inténtalo nuevamente.';
+          this.message =
+            err.status === 404
+              ? 'La funcionalidad de cancelar suscripción no está disponible.'
+              : 'Error al cancelar la suscripción. Inténtalo nuevamente.';
           this.isSuccess = false;
         },
       });
     }
   }
-  
   
 }

@@ -28,14 +28,6 @@
     </div>
     
       <button
-        *ngIf="user.isPaid"
-        type="button"
-        class="btn btn-warning w-100 mb-3"
-        (click)="cancelSubscription()"
-      >
-        Anular Suscripción
-      </button>
-      <button
         type="button"
         class="btn btn-danger w-100"
         (click)="deleteAccount()"
