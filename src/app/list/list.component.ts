@@ -18,6 +18,7 @@ export class ListComponent implements OnInit {
   shareEmail: string = ''; // Propiedad para almacenar el correo electrónico
   selectedListId: string | null = null; // Propiedad para almacenar el ID de la lista seleccionada
   sharedLists: any[] = [];
+  sharedUsers: { [listId: string]: string[] } = {}; // Usuarios compartidos por lista
 
   constructor(private listService: ListService, private router: Router) {}
 
@@ -110,6 +111,33 @@ export class ListComponent implements OnInit {
       },
     });
   }
+  
+  loadSharedUsers(listId: string): void {
+    this.listService.getSharedUsers(listId).subscribe(
+      (users) => {
+        this.sharedUsers[listId] = users; // Asigna los usuarios a la lista correspondiente
+      },
+      (error) => {
+        console.error('Error al cargar usuarios compartidos:', error);
+      }
+    );
+  }
+    
+  revokeAccess(listId: string, email: string): void {
+    console.log(`Revocando acceso para idLista=${listId}, emailUsuario=${email}`);
+    this.listService.revokeAccess(listId, email).subscribe({
+      next: (response) => {
+        console.log(response); // Si cambiaste el backend, aquí verás el JSON
+        this.sharedUsers[listId] = this.sharedUsers[listId].filter((user) => user !== email);
+        this.message = `Acceso revocado para ${email}`;
+      },
+      error: (error) => {
+        console.error('Error al revocar acceso:', error);
+        this.message = error.message || 'Error desconocido al revocar el acceso.';
+      },
+    });
+  }
+  
   
   
 }

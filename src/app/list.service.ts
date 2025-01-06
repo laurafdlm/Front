@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -62,5 +63,28 @@ export class ListService {
       headers: { Authorization: localStorage.getItem('token') || '' },
     });
   }
+
+  getSharedUsers(listId: string): Observable<string[]> {
+    const headers = this.getAuthHeaders();
+    return this.http.get<string[]>(`${this.baseUrl}/usuariosCompartidos`, {
+      headers,
+      params: { idLista: listId }, // Usa el parámetro idLista
+    });
+  }
+  
+  revokeAccess(listId: string, email: string): Observable<string> {
+    const headers = this.getAuthHeaders();
+    return this.http.delete(`${this.baseUrl}/revocarAcceso`, {
+      headers,
+      params: { idLista: listId, emailUsuario: email },
+      responseType: 'text', // Especificamos que la respuesta es texto plano
+    }).pipe(
+      tap((response: string) => {
+        console.log('Respuesta del backend:', response);
+      })
+    );
+  }
+  
+  
   
 }

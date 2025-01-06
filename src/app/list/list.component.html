@@ -1,81 +1,102 @@
 <div class="container mt-5">
-    <!-- Sección de mis listas -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      <h2>Mis Listas</h2>
-      <div class="input-group">
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Nueva lista"
-          [(ngModel)]="newListName"
-        />
-        <button class="btn btn-success" (click)="createList()">Añadir</button>
-      </div>
+  <!-- Sección de mis listas -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Mis Listas</h2>
+    <div class="input-group">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Nueva lista"
+        [(ngModel)]="newListName"
+      />
+      <button class="btn btn-success" (click)="createList()">Añadir</button>
     </div>
+  </div>
 
-    <div *ngIf="lists.length === 0" class="alert alert-info">
-      No tienes listas creadas. ¡Empieza añadiendo una!
-    </div>
+  <div *ngIf="lists.length === 0" class="alert alert-info">
+    No tienes listas creadas. ¡Empieza añadiendo una!
+  </div>
 
-    <ul class="list-group">
-      <li *ngFor="let list of lists" class="list-group-item d-flex justify-content-between align-items-center">
-        <div>
-          <strong>{{ list.name }}</strong>
-        </div>
-        <div class="btn-group">
-          <button class="btn btn-primary btn-sm" (click)="navigateToProducts(list.id)">Ver Productos</button>
-          <button class="btn btn-warning btn-sm" (click)="openShareModal(list.id)">Compartir</button>
-          <button class="btn btn-danger btn-sm" (click)="deleteList(list.id)">Eliminar</button>
-        </div>
-      </li>
-    </ul>
-
-    <!-- Sección de listas compartidas -->
-    <h3 class="mt-5">Listas compartidas conmigo</h3>
-    <div *ngIf="sharedLists.length === 0" class="alert alert-info">
-      No tienes listas compartidas.
-    </div>
-
-    <ul class="list-group">
-      <li *ngFor="let list of sharedLists" class="list-group-item d-flex justify-content-between align-items-center">
-        <div>
-          <strong>{{ list.name }}</strong>
-        </div>
-        <div class="btn-group">
-          <button class="btn btn-primary btn-sm" (click)="navigateToProducts(list.id)">Ver Productos</button>
-        </div>
-      </li>
-    </ul>
-
-    <!-- Modal para compartir lista -->
-    <div
-      class="modal fade"
-      id="shareModal"
-      tabindex="-1"
-      aria-labelledby="shareModalLabel"
-      aria-hidden="true"
+  <ul class="list-group">
+    <li
+      *ngFor="let list of lists"
+      class="list-group-item d-flex justify-content-between align-items-center"
     >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="shareModalLabel">Compartir Lista</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      <div>
+        <strong>{{ list.name }}</strong>
+        <button class="btn btn-link p-0" (click)="loadSharedUsers(list.id)">
+          Mostrar usuarios compartidos
+        </button>
+        <ul *ngIf="sharedUsers[list.id]">
+          <li *ngFor="let user of sharedUsers[list.id]" class="d-flex justify-content-between">
+            <span>{{ user }}</span>
+            <button class="btn btn-sm btn-danger" (click)="revokeAccess(list.id, user)">Revocar</button>
+          </li>
+        </ul>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-primary btn-sm" (click)="navigateToProducts(list.id)">
+          Ver Productos
+        </button>
+        <button class="btn btn-warning btn-sm" (click)="openShareModal(list.id)">
+          Compartir
+        </button>
+        <button class="btn btn-danger btn-sm" (click)="deleteList(list.id)">Eliminar</button>
+      </div>
+    </li>
+  </ul>
+
+  <!-- Sección de listas compartidas -->
+  <h3 class="mt-5">Listas compartidas conmigo</h3>
+  <div *ngIf="sharedLists.length === 0" class="alert alert-info">
+    No tienes listas compartidas.
+  </div>
+
+  <ul class="list-group">
+    <li
+      *ngFor="let list of sharedLists"
+      class="list-group-item d-flex justify-content-between align-items-center"
+    >
+      <div>
+        <strong>{{ list.name }}</strong>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-primary btn-sm" (click)="navigateToProducts(list.id)">
+          Ver Productos
+        </button>
+      </div>
+    </li>
+  </ul>
+
+  <!-- Modal para compartir lista -->
+  <div
+    class="modal fade"
+    id="shareModal"
+    tabindex="-1"
+    aria-labelledby="shareModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="shareModalLabel">Compartir Lista</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="email" class="form-label">Correo del destinatario:</label>
+            <input
+              type="email"
+              id="email"
+              [(ngModel)]="shareEmail"
+              class="form-control"
+              placeholder="Introduce el correo electrónico"
+            />
           </div>
-          <div class="modal-body">
-            <div class="mb-3">
-              <label for="email" class="form-label">Correo del destinatario:</label>
-              <input
-                type="email"
-                id="email"
-                [(ngModel)]="shareEmail"
-                class="form-control"
-                placeholder="Introduce el correo electrónico"
-              />
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <button
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button
             type="button"
             class="btn btn-primary"
             (click)="shareList()"
@@ -83,11 +104,11 @@
           >
             Enviar Invitación
           </button>
-          </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- Mensaje de éxito o error -->
-    <div *ngIf="message" class="alert alert-danger mt-4">{{ message }}</div>
+  <!-- Mensaje de éxito o error -->
+  <div *ngIf="message" class="alert alert-info mt-4">{{ message }}</div>
 </div>
