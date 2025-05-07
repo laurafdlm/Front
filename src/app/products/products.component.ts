@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
   imports: [CommonModule, FormsModule],
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.css'],
+  
 })
 export class ProductsComponent implements OnInit {
   products: any[] = [];
@@ -58,12 +59,20 @@ export class ProductsComponent implements OnInit {
         this.loadProducts();
       },
       (error) => {
-        console.error('Error al añadir el producto:', error);
-        this.message = 'Hubo un problema al añadir el producto.';
+        if (error.status === 403) {
+          this.message = 'Necesitas ser usuario premium para realizar esta acción.';
+        } else {
+          this.message = 'Error al añadir el producto.';
+        }
       }
+      
     );
   }
 
+  goBack(): void {
+    window.history.back();
+  }
+  
   buyProduct(idProducto: string, units: number): void {
     if (units <= 0) {
       this.message = 'Debe comprar una cantidad mayor a 0.';

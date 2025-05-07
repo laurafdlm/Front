@@ -4,6 +4,7 @@ import { ListService } from '../list.service';
 import { CommonModule } from '@angular/common'; // Importa CommonModule
 import { FormsModule } from '@angular/forms'; // Importa FormsModule
 
+
 @Component({
   selector: 'app-list',
   standalone: true,
@@ -25,10 +26,14 @@ export class ListComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadLists();
-    this.loadSharedLists(); // Cargar listas compartidas al iniciar el componente
-  }
 
-  loadLists(): void {
+    this.loadSharedLists(); // Cargar listas compartidas al iniciar el componente
+}
+
+
+
+
+   loadLists(): void {
     this.listService.getLists().subscribe(
       (data) => {
         this.lists = data;
@@ -39,6 +44,7 @@ export class ListComponent implements OnInit {
       }
     );
   }
+  
   loadSharedLists(): void {
     this.listService.getSharedLists().subscribe(
       (data) => {
@@ -62,9 +68,13 @@ export class ListComponent implements OnInit {
         this.newListName = '';
       },
       (error) => {
-        console.error('Error al crear la lista:', error);
-        this.message = 'Error al crear la lista.';
+        if (error.status === 403) {
+          this.message = 'Necesitas ser usuario premium para realizar esta acción.';
+        } else {
+          this.message = 'Error al crear la lista.';
+        }
       }
+      
     );
   }
 
