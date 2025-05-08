@@ -18,6 +18,12 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'payment', component: PaymentComponent, canActivate: [AuthGuard] }, // Añade esta línea
   { path: 'invitation-accepted', component: InvitationAcceptedComponent },
+  {
+    path: 'lists/:idLista/products',
+    loadComponent: () =>
+      import('./products/products.component').then((m) => m.ProductsComponent),
+    canActivate: [AuthGuard]
+  }
 
 ];
 

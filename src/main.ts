@@ -43,6 +43,6 @@ const routes: Routes = [
 bootstrapApplication(AppComponent, {
   providers: [
     provideRouter(routes, withComponentInputBinding()),
-    importProvidersFrom(HttpClientModule), // Asegúrate de incluir HttpClientModule aquí
+    importProvidersFrom(HttpClientModule), 
   ],
 });

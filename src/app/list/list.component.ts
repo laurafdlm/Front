@@ -20,6 +20,7 @@ export class ListComponent implements OnInit {
   selectedListId: string | null = null; // Propiedad para almacenar el ID de la lista seleccionada
   sharedLists: any[] = [];
   sharedUsers: { [listId: string]: string[] } = {}; // Usuarios compartidos por lista
+  userEmail: string = localStorage.getItem('email') || '';
 
   constructor(private listService: ListService, private router: Router) {}
 
@@ -90,10 +91,15 @@ export class ListComponent implements OnInit {
     );
   }
   
-
   navigateToProducts(listId: string): void {
-    this.router.navigate([`/lists/${listId}/products`]);
+    const list = this.lists.find((l) => l.id === listId);
+    const isOwner = list?.propietario === localStorage.getItem('email');
+    this.router.navigate([`/lists/${listId}/products`], {
+      queryParams: { owner: isOwner }
+    });
   }
+  
+  
 
   openShareModal(listId: string): void {
     this.selectedListId = listId; // Almacena el ID de la lista seleccionada

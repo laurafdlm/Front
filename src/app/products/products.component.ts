@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ProductService } from '../product.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { WebsocketService } from '../websocket.service';
 
 @Component({
   selector: 'app-products',
@@ -18,18 +19,42 @@ export class ProductsComponent implements OnInit {
   newProductQuantity: number = 0;
   message: string = '';
   idLista: string = '';
+  isOwner: boolean = false;
+
 
   constructor(
     private productService: ProductService, // Inyección del servicio
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private websocketService: WebsocketService
   ) {}
-
   ngOnInit(): void {
-    this.idLista = this.route.snapshot.paramMap.get('id')!;
-    this.loadProducts();
+    this.route.params.subscribe(params => {
+      this.idLista = params['id'];
+      if (!this.idLista) {
+        console.warn('No se pudo obtener idLista desde los parámetros');
+        return;
+      }
+  
+      this.route.queryParams.subscribe(query => {
+        this.isOwner = query['owner'] === 'true';
+      });
+  
+      // Aquí fuera del segundo subscribe
+      this.websocketService.message$.subscribe(() => {
+        this.loadProducts();
+      });
+  
+      this.loadProducts();
+    });
   }
-
+  
+  
   loadProducts(): void {
+    if (!this.idLista) {
+      console.warn('No hay idLista definido');
+      return;
+    }
+  
     this.productService.getProducts(this.idLista).subscribe(
       (response) => {
         this.products = response;
@@ -40,6 +65,9 @@ export class ProductsComponent implements OnInit {
       }
     );
   }
+  
+  
+  
 
   addProduct(): void {
     if (!this.newProductName || this.newProductQuantity <= 0) {
@@ -57,7 +85,9 @@ export class ProductsComponent implements OnInit {
         this.newProductName = '';
         this.newProductQuantity = 0;
         this.loadProducts();
+        this.websocketService.enviarMensaje('producto actualizado'); // Aquí
       },
+    
       (error) => {
         if (error.status === 403) {
           this.message = 'Necesitas ser usuario premium para realizar esta acción.';
@@ -82,11 +112,30 @@ export class ProductsComponent implements OnInit {
     this.productService.buyProduct(idProducto, units).subscribe(
       () => {
         this.loadProducts();
-      },
+        this.websocketService.enviarMensaje('producto comprado'); 
+      },    
       (error) => {
         console.error('Error al comprar el producto:', error);
         this.message = 'Hubo un problema al comprar el producto.';
       }
     );
+    
   }
+
+  deleteProduct(idProducto: string): void {
+    if (!confirm('¿Seguro que deseas eliminar este producto?')) return;
+  
+    this.productService.deleteProduct(idProducto).subscribe(
+      () => {
+        this.message = 'Producto eliminado correctamente.';
+        this.loadProducts();
+        this.websocketService.enviarMensaje('producto actualizado');
+      },
+      (error) => {
+        this.message = 'Error al eliminar el producto.';
+      }
+    );
+  }
+  
+  
 }
