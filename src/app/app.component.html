@@ -1,12 +1,16 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-success">
   <div class="container-fluid">
-    <a class="navbar-brand text-white" routerLink="/">Lista de la Compra</a>
+    <a class="navbar-brand text-white" [routerLink]="isLoggedIn ? '/home' : '/login'">
+  Lista de la Compra
+</a>
+
 
     <!-- Botón hamburguesa -->
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+  <button class="navbar-toggler" type="button" (click)="toggleNavbar()" aria-controls="navbarNav"
+    aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
 
     <!-- Contenedor colapsable -->
     <div class="collapse navbar-collapse" id="navbarNav">

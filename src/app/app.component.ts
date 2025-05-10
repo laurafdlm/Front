@@ -16,11 +16,21 @@ export class AppComponent implements OnInit {
 
   constructor(private userService: UserService, private router: Router) {}
 
-  ngOnInit(): void {
-    this.userService.authStatus.subscribe((status) => {
-      this.isLoggedIn = status;
-    });
+ngOnInit(): void {
+  const tieneToken = this.userService.isAuthenticated();
+  this.isLoggedIn = tieneToken;
+  this.userService.authStatus.subscribe((status) => {
+    this.isLoggedIn = status;
+  });
+}
+
+
+toggleNavbar() {
+  const navbar = document.getElementById('navbarNav');
+  if (navbar) {
+    navbar.classList.toggle('show');
   }
+}
 
   logout(): void {
     this.userService.logout();

@@ -71,8 +71,9 @@ export class UserService {
   }
 
   isAuthenticated(): boolean {
-    return this.authStatusSubject.value;
+    return !!localStorage.getItem('token');
   }
+
 
   // Recuperación de contraseña
   sendPasswordRecovery(email: string): Observable<any> {

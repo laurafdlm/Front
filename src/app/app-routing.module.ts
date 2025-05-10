@@ -8,11 +8,12 @@ import { HomeComponent } from './home/home.component';
 import { PaymentComponent } from './payment/payment.component'; // Asegúrate de importar el componente
 import { AuthGuard } from './auth.guard';
 import { InvitationAcceptedComponent } from './invitation-accepted/invitation-accepted.component';
+import { RedirectIfAuthGuard } from './redirect-if-auth.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: Register1Component },
+ { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent, canActivate: [RedirectIfAuthGuard] },
+  { path: 'register', component: Register1Component, canActivate: [RedirectIfAuthGuard] },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
