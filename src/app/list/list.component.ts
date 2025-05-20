@@ -66,6 +66,7 @@ export class ListComponent implements OnInit {
     this.listService.createList(this.newListName).subscribe(
       (newList) => {
         this.lists.push(newList);
+        
         this.newListName = '';
       },
       (error) => {
